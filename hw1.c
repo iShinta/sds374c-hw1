@@ -75,9 +75,7 @@ int main(){
 
   int z;
   #pragma omp parallel private(z) {
-    for(z=1; z < 5; z++){
-      printf("%i", z);
-    }
+    printf("Hello")
   }
 
   double i0, i1, i2, i3, i4, i5, i6;
