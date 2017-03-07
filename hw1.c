@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <omp.h>
 
 //Use single precision float/real variables throughout the excercise.
 void initialize(double *x, int n){
@@ -60,11 +61,11 @@ void count(double *y, int n, double t, int *res){
 }
 
 int main(){
-  //struct timeval t1;
-  //gettimeofday(&t1, NULL);
-  //srand(t1.tv_usec * t1.tv_sec);
-  //srand(time(0));
-  //srand(unsigned int seed);
+
+  printf("%i\n", omp_get_num_procs());
+  printf("%i\n", omp_get_num_threads());
+  printf("%i\n", omp_get_max_threads());
+
   srand(time(NULL));
 
   double i0, i1, i2, i3, i4, i5, i6;
