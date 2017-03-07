@@ -38,11 +38,14 @@ void smooth(double *x, double*y, int n, double a, double b, double c){
   printf("%i\n", omp_get_num_threads());
 
   int i, j;
-  for(i = 1; i < n - 1; i++){
-    for(j = 1; j < n - 1; j++){
-      y[i*n + j] = a * (x[(i-1)*n+(j-1)] + x[(i-1)*n+(j+1)] + x[(i+1)*n+(j-1)] + x[(i+1)*n+(j+1)])
-                  + b * (x[(i-1)*n+(j)] + x[(i+1)*n+(j)] + x[(i)*n+(j-1)] + x[(i)*n+(j+1)])
-                  + c * (x[i*n+j]);
+  #pragma omp parallel private(i,j)
+  {
+    for(i = 1; i < n - 1; i++){
+      for(j = 1; j < n - 1; j++){
+        y[i*n + j] = a * (x[(i-1)*n+(j-1)] + x[(i-1)*n+(j+1)] + x[(i+1)*n+(j-1)] + x[(i+1)*n+(j+1)])
+                    + b * (x[(i-1)*n+(j)] + x[(i+1)*n+(j)] + x[(i)*n+(j-1)] + x[(i)*n+(j+1)])
+                    + c * (x[i*n+j]);
+      }
     }
   }
 }
@@ -72,12 +75,6 @@ int main(){
   printf("%i\n", omp_get_num_threads());
 
   srand(time(NULL));
-
-  int z;
-  #pragma omp parallel
-  {
-    printf("Hello\n");
-  }
 
   double i0, i1, i2, i3, i4, i5, i6;
 
