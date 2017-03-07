@@ -39,7 +39,7 @@ void smooth(double *x, double*y, int n, double a, double b, double c){
   int z;
   #pragma omp parallel private(z) {
     for(z=1; z < 5; z++){
-      printf("%i", z)
+      printf("%i", z);
     }
   }
   int i, j;
