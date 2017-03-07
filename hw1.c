@@ -36,17 +36,20 @@ void smooth(double *x, double*y, int n, double a, double b, double c){
   printf("%i\n", omp_get_num_procs());
   printf("%i\n", omp_get_max_threads());
   printf("%i\n", omp_get_num_threads());
-  int i, j;
-  #pragma omp parallel private(i,j) {
-    for(i = 1; i < n - 1; i++){
-      for(j = 1; j < n - 1; j++){
-        y[i*n + j] = a * (x[(i-1)*n+(j-1)] + x[(i-1)*n+(j+1)] + x[(i+1)*n+(j-1)] + x[(i+1)*n+(j+1)])
-                    + b * (x[(i-1)*n+(j)] + x[(i+1)*n+(j)] + x[(i)*n+(j-1)] + x[(i)*n+(j+1)])
-                    + c * (x[i*n+j]);
-      }
+  int z;
+  #pragma omp parallel private(z) {
+    for(z=1; z < 5; z++){
+      printf("%i", z)
     }
   }
-
+  int i, j;
+  for(i = 1; i < n - 1; i++){
+    for(j = 1; j < n - 1; j++){
+      y[i*n + j] = a * (x[(i-1)*n+(j-1)] + x[(i-1)*n+(j+1)] + x[(i+1)*n+(j-1)] + x[(i+1)*n+(j+1)])
+                  + b * (x[(i-1)*n+(j)] + x[(i+1)*n+(j)] + x[(i)*n+(j-1)] + x[(i)*n+(j+1)])
+                  + c * (x[i*n+j]);
+    }
+  }
 }
 
 void count(double *y, int n, double t, int *res){
