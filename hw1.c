@@ -74,7 +74,8 @@ int main(){
   srand(time(NULL));
 
   int z;
-  #pragma omp parallel {
+  #pragma omp parallel
+  {
     printf("Hello\n");
   }
 
