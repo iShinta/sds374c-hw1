@@ -38,33 +38,35 @@ void smooth(double *x, double*y, int n, double a, double b, double c){
   printf("%i\n", omp_get_num_threads());
 
   int i, j;
-  #pragma omp parallel private(i,j)
-  {
-    for(i = 1; i < n - 1; i++){
-      for(j = 1; j < n - 1; j++){
-        y[i*n + j] = a * (x[(i-1)*n+(j-1)] + x[(i-1)*n+(j+1)] + x[(i+1)*n+(j-1)] + x[(i+1)*n+(j+1)])
-                    + b * (x[(i-1)*n+(j)] + x[(i+1)*n+(j)] + x[(i)*n+(j-1)] + x[(i)*n+(j+1)])
-                    + c * (x[i*n+j]);
-      }
+  // #pragma omp parallel private(i,j)
+  // {
+  for(i = 1; i < n - 1; i++){
+    for(j = 1; j < n - 1; j++){
+      y[i*n + j] = a * (x[(i-1)*n+(j-1)] + x[(i-1)*n+(j+1)] + x[(i+1)*n+(j-1)] + x[(i+1)*n+(j+1)])
+                  + b * (x[(i-1)*n+(j)] + x[(i+1)*n+(j)] + x[(i)*n+(j-1)] + x[(i)*n+(j+1)])
+                  + c * (x[i*n+j]);
     }
   }
+  // }
 }
 
 void count(double *y, int n, double t, int *res){
   int i, j;
   int result;
   result = 0;
-  for(i = 1; i < n - 1; i++){
-    for(j = 1; j < n - 1; j++){
-      if(y[i*n + j] < t){
-        result++;
-      }
-    }
+  #pragma omp parallel reduction(+:result)
+    #pragma omp for
+      for(i = 1; i < n - 1; i++){
+        for(j = 1; j < n - 1; j++){
+          if(y[i*n + j] < t){
+            result++;
+          }
+        }
   }
   //res = result;
   *res = result;
   //res = &result;
-  //printf("%i\n", res);
+  printf("%i\n", res);
 }
 
 int main(){
