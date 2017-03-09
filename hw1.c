@@ -33,9 +33,6 @@ void initialize(double *x, int n){
 }
 
 void smooth(double *x, double*y, int n, double a, double b, double c){
-  printf("%i\n", omp_get_num_procs());
-  printf("%i\n", omp_get_max_threads());
-  printf("%i\n", omp_get_num_threads());
 
   int i, j;
   // #pragma omp parallel private(i,j)
@@ -51,13 +48,16 @@ void smooth(double *x, double*y, int n, double a, double b, double c){
 }
 
 void count(double *y, int n, double t, int *res){
+
   int i, j;
   int result;
   result = 0;
   #pragma omp parallel reduction(+:result)
+    printf("%i\n", omp_get_max_threads());
+    printf("%i\n", omp_get_num_threads());
     #pragma omp for private(i,j)
+      printf("%i", omp_get_thread_num())
       for(i = 1; i < n - 1; i++){
-
         for(j = 1; j < n - 1; j++){
           if(y[i*n + j] < t){
             result++;
