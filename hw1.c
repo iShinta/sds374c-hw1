@@ -57,6 +57,7 @@ void count(double *y, int n, double t, int *res){
   #pragma omp parallel reduction(+:result)
     #pragma omp for
       for(i = 1; i < n - 1; i++){
+        #pragma omp for 
         for(j = 1; j < n - 1; j++){
           if(y[i*n + j] < t){
             result++;
