@@ -53,6 +53,7 @@ void count(double *y, int n, double t, int *res){
   int result;
   result = 0;
   #pragma omp parallel for private(i,j) reduction(+:result)
+  {
     printf("%i\n", omp_get_max_threads());
     printf("%i\n", omp_get_num_threads());
  //   #pragma omp parallel for private(i,j)
@@ -63,6 +64,7 @@ void count(double *y, int n, double t, int *res){
           result++;
         }
       }
+    }
   }
   //res = result;
   *res = result;
