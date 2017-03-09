@@ -55,9 +55,9 @@ void count(double *y, int n, double t, int *res){
   int result;
   result = 0;
   #pragma omp parallel reduction(+:result)
-    #pragma omp for
+    #pragma omp for private(i,j)
       for(i = 1; i < n - 1; i++){
-        #pragma omp for 
+
         for(j = 1; j < n - 1; j++){
           if(y[i*n + j] < t){
             result++;
@@ -77,7 +77,8 @@ int main(){
   printf("%i\n", omp_get_max_threads());
   printf("%i\n", omp_get_num_threads());
 
-  srand(time(NULL));
+//  srand(time(NULL));
+  srand(1234);
 
   double i0, i1, i2, i3, i4, i5, i6;
 
