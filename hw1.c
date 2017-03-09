@@ -52,17 +52,17 @@ void count(double *y, int n, double t, int *res){
   int i, j;
   int result;
   result = 0;
-  #pragma omp parallel reduction(+:result)
+  #pragma omp parallel for private(i,j) reduction(+:result)
     printf("%i\n", omp_get_max_threads());
     printf("%i\n", omp_get_num_threads());
-    #pragma omp for private(i,j)
-      printf("%i", omp_get_thread_num())
-      for(i = 1; i < n - 1; i++){
-        for(j = 1; j < n - 1; j++){
-          if(y[i*n + j] < t){
-            result++;
-          }
+ //   #pragma omp parallel for private(i,j)
+ //   printf("%i", omp_get_thread_num());
+    for(i = 1; i < n - 1; i++){
+      for(j = 1; j < n - 1; j++){
+        if(y[i*n + j] < t){
+          result++;
         }
+      }
   }
   //res = result;
   *res = result;
