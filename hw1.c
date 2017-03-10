@@ -48,28 +48,28 @@ void smooth(double *x, double*y, int n, double a, double b, double c){
 }
 
 void count(double *y, int n, double t, int *res){
-  int i, j;
+  int i, j, ij;
   int result;
   result = 0;
 
-  #pragma omp parallel for private(i,j) reduction(+:result)
-  for(int ij = 0; ij < (n-1)*(n-1); ++ij)
-  {
-    i = ij / (n-1);
-    j = ij % (n-1);
-    if(y[i*n + j] < t){
-      result++;
-    }
-  }
+//  #pragma omp parallel for private(i,j,ij) reduction(+:result)
+//  for(ij = 0; ij < (n-1)*(n-1); ij++)
+//  {
+//    i = ij / (n-1);
+//    j = ij % (n-1);
+//    if(y[i*n + j] < t){
+//      result++;
+//    }
+//  }
 
-  // #pragma omp parallel for private(i,j) reduction(+:result)
-  // for(i = 1; i < n - 1; i++){
-  //   for(j = 1; j < n - 1; j++){
-  //     if(y[i*n + j] < t){
-  //       result++;
-  //     }
-  //   }
-  // }
+   #pragma omp parallel for private(i,j) reduction(+:result)
+   for(i = 1; i < n - 1; i++){
+     for(j = 1; j < n - 1; j++){
+       if(y[i*n + j] < t){
+         result++;
+       }
+     }
+   }
 
   *res = result;
   //res = &result;
